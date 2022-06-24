@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LoanApp</string>
+    <string name="login_welcome">Log In</string>
+</resources>
