@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">LoanApp</string>
     <string name="login_welcome">Log In</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">vtvvgF72pHl0DgjRE3AFOa4ZyMzOZsE1XqLO1gUP</string>
+    <string name="back4app_client_key">zMFhTVeH9cEs7R2bhIqm6n0SMeoC3GorUncZNwv3</string>
 </resources>

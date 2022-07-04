@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/welcome_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome to LendMe, Sarah!"
@@ -30,6 +31,7 @@
         android:textSize="30dp"
         android:textColor="@color/black"
         android:layout_marginBottom="20dp"
+        android:id="@+id/lendbtn"
         android:text="Lend" />
 
     <Button
@@ -39,6 +41,7 @@
         android:padding="20dp"
         android:textColor="@color/black"
         android:layout_marginBottom="0dp"
+        android:id="@+id/borrowbtn"
         android:text="Borrow" />
 
     <TextView
