@@ -4,9 +4,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -17,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -33,8 +38,11 @@ public class PostItemActivity extends AppCompatActivity {
     private FloatingActionButton openInputPopupDialogButton;
     private RecyclerView recyclerView;
     private TextView empty_text;
+    private FusedLocationProviderClient fusedLocationClient;
+    private Location loc;
 
     private ProgressDialog progressDialog;
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,22 @@ public class PostItemActivity extends AppCompatActivity {
         price = findViewById(R.id.price);
         image_url = findViewById(R.id.image_url);
         progressDialog = new ProgressDialog(PostItemActivity.this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        loc = null;
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            loc = null;
+                        }else{
+                            loc = location;
+                        }
+                    }
+                });
 
         String[] items = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
 
@@ -72,6 +96,7 @@ public class PostItemActivity extends AppCompatActivity {
             todo.put("availability", availability.getText().toString());
             todo.put("price",price.getText().toString());
             todo.put("image_url",image_url.getText().toString());
+            todo.put("seller_loc",loc.toString());
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
 

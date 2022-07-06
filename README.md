@@ -63,8 +63,4 @@ Profile
 Optional Feature(s):
 Chat feature
 
-Low Fidelity Wireframe:
-
-![LendMe App Low Fidelity Wireframe](https://user-images.githubusercontent.com/73849431/175988116-2707e6ff-e96c-459d-b254-525063eaaff4.JPG)
-
 
