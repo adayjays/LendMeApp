@@ -36,18 +36,24 @@ public class ItemsActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         String value = ""; // or other values
-        if(b != null)
+        if(b != null) {
             value = b.getString("cat");
-            getItemList(value);
+        }
+        getItemList(value);
+
     }
     private void getItemList(String val) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("items");
         //We use this code to fetch data from newest to oldest.
+        if (val != "") {
+            query.whereEqualTo("category", val);
+        }
+        query.whereEqualTo("is_borrowable",1);
         query.orderByDescending("createdAt");
         query.findInBackground((objects, e) -> {
             if (e == null) {
 
-                initTodoList(objects,val);
+                initTodoList(objects);
             } else {
                 showAlert("Error", e.getMessage());
             }
@@ -68,7 +74,7 @@ public class ItemsActivity extends AppCompatActivity {
         AlertDialog ok = builder.create();
         ok.show();
     }
-    private void initTodoList(List<ParseObject> list, String val) {
+    private void initTodoList(List<ParseObject> list) {
         if (list == null || list.isEmpty()) {
 //            empty_text.setVisibility(View.VISIBLE);
             return;

@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class PostItemActivity extends AppCompatActivity {
     private TextView empty_text;
     private FusedLocationProviderClient fusedLocationClient;
     private Location loc;
+    private String cat;
 
     private ProgressDialog progressDialog;
     @SuppressLint("MissingPermission")
@@ -57,6 +59,7 @@ public class PostItemActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(PostItemActivity.this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         loc = null;
+        cat = "Books";
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -77,32 +80,45 @@ public class PostItemActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
 
         category.setAdapter(adapter);
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                               @Override
+                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                   cat = category.getItemAtPosition(i).toString();
+                                               }
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                                               @Override
+                                               public void onNothingSelected(AdapterView<?> adapterView) {
 
-                saveTodo();
-            }
-        });
+                                               }
+                                           });
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        saveTodo();
+                    }
+                });
     }
     private void saveTodo() {
-        ParseObject todo = new ParseObject("items");
+        ParseObject item = new ParseObject("items");
         if (title.getText().toString().length() != 0 && description.getText().toString().length() != 0 &&(URLUtil.isHttpUrl(image_url.getText().toString()) || URLUtil.isHttpsUrl(image_url.getText().toString()))) {
 
             progressDialog.show();
-            todo.put("title", title.getText().toString());
-            todo.put("description", description.getText().toString());
-            todo.put("availability", availability.getText().toString());
-            todo.put("price",price.getText().toString());
-            todo.put("image_url",image_url.getText().toString());
-            todo.put("seller_loc",loc.toString());
+            item.put("title", title.getText().toString());
+            item.put("description", description.getText().toString());
+            item.put("availability", availability.getText().toString());
+            item.put("price",price.getText().toString());
+            item.put("image_url",image_url.getText().toString());
+            item.put("seller_loc",loc.toString());
+            item.put("category",cat);
+            item.put("is_borrowable",1);
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
 
-                todo.put("posted_by",currentUser.getObjectId());
+                item.put("posted_by",currentUser.getObjectId());
             }
-            todo.saveInBackground(e -> {
+            item.saveInBackground(e -> {
                 progressDialog.dismiss();
                 if (e == null) {
                     //We saved the object and fetching data again

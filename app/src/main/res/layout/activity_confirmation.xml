@@ -6,4 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ConfirmationActivity">
 
+    <TextView
+        android:id="@+id/thank_you_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="Thank you for using LendMe, Sarah! "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/you_msg"
+        android:layout_width="375dp"
+        android:layout_height="45dp"
+        android:text="You and the lender will meet at the agreed location on July 1st, 2020 at 5:30 PM CST. "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/notf_msg"
+        android:layout_width="360dp"
+        android:layout_height="34dp"
+        android:text="You must return 'Ninja Professional 1000-Watt Blender by July 4th, 2022 by 5:30 PM CST to avoid late fees. "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/conf_msg"
+        android:layout_width="297dp"
+        android:layout_height="73dp"
+        android:text="This confirmation has also been sent to the email address used to create your account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 </androidx.constraintlayout.widget.ConstraintLayout>
