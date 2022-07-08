@@ -1,13 +1,9 @@
 package com.example.loanapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,20 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowingActivity extends AppCompatActivity {
-    private ListView lv;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrowing);
         String[] items = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
 
-        lv = (ListView) findViewById(R.id.my_list_view);
-
-        // Instanciating an array list (you don't need to do this,
-        // you already have yours).
-        List<String> your_array_list = new ArrayList<>();
-        your_array_list.add("foo");
-        your_array_list.add("bar");
+        listView = (ListView) findViewById(R.id.my_list_view);
 
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
@@ -40,9 +30,9 @@ public class BorrowingActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 items);
 
-        lv.setAdapter(arrayAdapter);
+        listView.setAdapter(arrayAdapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,

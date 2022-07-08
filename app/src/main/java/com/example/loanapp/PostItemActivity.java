@@ -2,11 +2,9 @@ package com.example.loanapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -16,14 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -36,9 +31,6 @@ public class PostItemActivity extends AppCompatActivity {
     EditText price;
     Button submit;
     Spinner category;
-    private FloatingActionButton openInputPopupDialogButton;
-    private RecyclerView recyclerView;
-    private TextView empty_text;
     private FusedLocationProviderClient fusedLocationClient;
     private Location loc;
     private String cat;
@@ -75,9 +67,9 @@ public class PostItemActivity extends AppCompatActivity {
                     }
                 });
 
-        String[] items = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
+        String[] itemsCategories = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsCategories);
 
         category.setAdapter(adapter);
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -96,11 +88,11 @@ public class PostItemActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        saveTodo();
+                        savePostItem();
                     }
                 });
     }
-    private void saveTodo() {
+    private void savePostItem() {
         ParseObject item = new ParseObject("items");
         if (title.getText().toString().length() != 0 && description.getText().toString().length() != 0 &&(URLUtil.isHttpUrl(image_url.getText().toString()) || URLUtil.isHttpsUrl(image_url.getText().toString()))) {
 
