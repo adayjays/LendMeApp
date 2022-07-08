@@ -109,8 +109,12 @@ public class PostItemActivity extends AppCompatActivity {
             item.put("description", description.getText().toString());
             item.put("availability", availability.getText().toString());
             item.put("price",price.getText().toString());
-            item.put("image_url",image_url.getText().toString());
-            item.put("seller_loc",loc.toString());
+            item.put("image_url", image_url.getText().toString());
+            if (loc == null){
+                item.put("seller_loc", "no location data found");
+            }else {
+                item.put("seller_loc",loc.toString());
+            }
             item.put("category",cat);
             item.put("is_borrowable",1);
             ParseUser currentUser = ParseUser.getCurrentUser();
@@ -129,7 +133,7 @@ public class PostItemActivity extends AppCompatActivity {
                 }
             });
         } else {
-            showAlert("Error", "Please enter a title and description");
+            showAlert("Error", "Please enter a title, image_ur should contain http or htpps and description");
         }
     }
     private void showAlert(String title, String message) {

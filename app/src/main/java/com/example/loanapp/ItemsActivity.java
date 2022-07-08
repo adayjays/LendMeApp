@@ -13,18 +13,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ItemsActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
+    private static RecyclerViewClickListener itemListener;
 
     private RecyclerView recyclerView;
+    private TextView category_type;
 //    private TextView empty_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,26 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
 
         recyclerView = findViewById(R.id.recyclerView);
+        category_type = findViewById(R.id.category_type);
 //        empty_text = findViewById(R.id.empty_text);
 
         Bundle b = getIntent().getExtras();
         String value = ""; // or other values
         if(b != null) {
             value = b.getString("cat");
+//            set it as title of the page
+            category_type.setText(value.toUpperCase(Locale.ROOT));
+
         }
         getItemList(value);
+
+        itemListener = new RecyclerViewClickListener() {
+            @Override
+            public void recyclerViewListClicked(View v, int position) {
+                Toast.makeText(ItemsActivity.this,"Position is",Toast.LENGTH_LONG).show();
+            }
+
+        };
 
     }
     private void getItemList(String val) {
@@ -59,6 +75,10 @@ public class ItemsActivity extends AppCompatActivity {
             }
         });
     }
+//    @Override
+//    public void recyclerViewListClicked(View v, int position){
+//
+//    }
 
 
     private void showAlert(String title, String message) {
@@ -81,7 +101,7 @@ public class ItemsActivity extends AppCompatActivity {
         }
 //        empty_text.setVisibility(View.GONE);
 
-        ItemAdapter adapter = new ItemAdapter(list, this);
+        ItemAdapter adapter = new ItemAdapter(list, ItemsActivity.this);
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

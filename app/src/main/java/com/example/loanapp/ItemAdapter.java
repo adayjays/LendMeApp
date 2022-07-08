@@ -1,6 +1,8 @@
 package com.example.loanapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -25,14 +27,19 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
+    private static RecyclerViewClickListener itemListener;
+
     private List<ParseObject> list;
     private Context context;
+
     public MutableLiveData<ParseObject> onEditListener = new MutableLiveData<>();
     public MutableLiveData<ParseObject> onDeleteListener = new MutableLiveData<>();
 
     public ItemAdapter(List<ParseObject> list, Context context) {
         this.list = list;
         this.context = context;
+        this.itemListener = itemListener;
+
     }
 
     @NonNull
@@ -45,11 +52,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemHolder holder, @SuppressLint("RecyclerView") final int position) {
         ParseObject object = list.get(position);
         holder.title.setText(object.getString("title") + " $"+object.getString("price")+" /day");
 //        holder.description.setText(object.getString("description"));
         holder.image.setImageBitmap(getBitmapFromURL(object.getString("image_url")));
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                itemListener.recyclerViewListClicked(v,position);
+                final Intent intent = new Intent(context, ItemActivity.class);
+                intent.putExtra("key",object.getObjectId());
+                context.startActivity(intent);
+            }
+        });
 
 
     }
@@ -82,7 +98,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 }
 
 
-class ItemHolder extends RecyclerView.ViewHolder{
+class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     TextView title;
 //    TextView description;
     ImageView image;
@@ -93,5 +109,12 @@ class ItemHolder extends RecyclerView.ViewHolder{
         title = itemView.findViewById(R.id.title);
 //        description = itemView.findViewById(R.id.description);
         image = itemView.findViewById(R.id.image_view);
+        itemView.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
