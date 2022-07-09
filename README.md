@@ -67,8 +67,3 @@ Chat feature
 Demo:
 
 https://user-images.githubusercontent.com/73849431/178092900-5f38af12-ce12-4b22-ae12-e7959d8a45ef.mp4
-
-
-
-https://user-images.githubusercontent.com/73849431/178092906-0a35518a-7f4b-4f02-85bb-4b45ffeeb722.mp4
-
