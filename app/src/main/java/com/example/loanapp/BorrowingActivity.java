@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowingActivity extends AppCompatActivity {
-    private ListView lv;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrowing);
-        String[] items = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
+        String[] itemsCategories = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
 
-        lv = (ListView) findViewById(R.id.my_list_view);
+        listView = (ListView) findViewById(R.id.my_list_view);
 
         // Instanciating an array list (you don't need to do this,
         // you already have yours).
@@ -38,18 +38,18 @@ public class BorrowingActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                items);
+                itemsCategories);
 
-        lv.setAdapter(arrayAdapter);
+        listView.setAdapter(arrayAdapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
                 Intent intent = new Intent(BorrowingActivity.this, ItemsActivity.class);
-                intent.putExtra("cat",items[position]);
+                intent.putExtra("cat",itemsCategories[position]);
                 startActivity(intent);
 
             }

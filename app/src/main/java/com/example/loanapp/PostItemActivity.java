@@ -118,10 +118,8 @@ public class PostItemActivity extends AppCompatActivity {
             item.put("category",cat);
             item.put("is_borrowable",1);
             ParseUser currentUser = ParseUser.getCurrentUser();
-            if (currentUser != null) {
+            item.put("posted_by",currentUser.getObjectId());
 
-                item.put("posted_by",currentUser.getObjectId());
-            }
             item.saveInBackground(e -> {
                 progressDialog.dismiss();
                 if (e == null) {

@@ -75,10 +75,7 @@ public class ItemsActivity extends AppCompatActivity {
             }
         });
     }
-//    @Override
-//    public void recyclerViewListClicked(View v, int position){
-//
-//    }
+
 
 
     private void showAlert(String title, String message) {

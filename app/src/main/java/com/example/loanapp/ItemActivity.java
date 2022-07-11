@@ -29,9 +29,10 @@ import java.util.List;
 public class ItemActivity extends AppCompatActivity {
     TextView desc_txt, title_txt,other_txt;
     ImageView imageView3;
-    Button borrow_btn;
+    Button borrow_btn,chat;
     boolean is_available = false;
     String object_id = "1";
+    String owner_id = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class ItemActivity extends AppCompatActivity {
         title_txt = findViewById(R.id.title_txt);
         borrow_btn = findViewById(R.id.borrow_btn);
         other_txt = findViewById(R.id.other_txt);
+        chat = findViewById(R.id.chat_btn);
         Bundle extras = getIntent().getExtras();
 //        Log.e(extras.getString("key"));
         if (extras != null) {
@@ -60,6 +62,13 @@ public class ItemActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
+            chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ItemActivity.this,ChatActivity.class);
+                    String extra = owner_id+","+object_id;
+                }
+            });
         }
     }
     public void getData(String key){
@@ -73,6 +82,7 @@ public class ItemActivity extends AppCompatActivity {
                     String desc = item.getString("description");
                     String title = item.getString("title");
                     String img =  item.getString("image_url");
+                    owner_id = item.getString("posted_by");
                     String new_other_txt = "$"+item.getString("price")+"/day\n Available "+item.getString("price")+"\nLocal only";
                     desc_txt.setText(desc);
                     title_txt.setText(title);
