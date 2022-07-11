@@ -8,14 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -39,10 +35,10 @@ public class ItemsActivity extends AppCompatActivity {
         category_type = findViewById(R.id.category_type);
 //        empty_text = findViewById(R.id.empty_text);
 
-        Bundle b = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         String value = ""; // or other values
-        if(b != null) {
-            value = b.getString("cat");
+        if(bundle != null) {
+            value = bundle.getString("cat");
 //            set it as title of the page
             category_type.setText(value.toUpperCase(Locale.ROOT));
 

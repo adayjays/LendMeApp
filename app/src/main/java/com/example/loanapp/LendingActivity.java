@@ -1,9 +1,6 @@
 package com.example.loanapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LendingActivity extends AppCompatActivity {
-    ListView lv;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lending);
-        String[] items = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
+        String[] itemCategories = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
 
-        lv = (ListView) findViewById(R.id.my_list_view2);
+        listView = (ListView) findViewById(R.id.my_list_view2);
 
         // Instanciating an array list (you don't need to do this,
         // you already have yours).
@@ -38,18 +35,18 @@ public class LendingActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                items);
+                itemCategories);
 
-        lv.setAdapter(arrayAdapter);
+        listView.setAdapter(arrayAdapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
                 Intent intent = new Intent(LendingActivity.this, PostItemActivity.class);
-//                intent.putExtra("cat",items[position]);
+//                intent.putExtra("cat",itemCategories[position]);
                 startActivity(intent);
 
             }
