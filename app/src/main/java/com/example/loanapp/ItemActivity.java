@@ -67,6 +67,8 @@ public class ItemActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(ItemActivity.this,ChatActivity.class);
                     String extra = owner_id+","+object_id;
+                    intent.putExtra("key",extra);
+                    startActivity(intent);
                 }
             });
         }

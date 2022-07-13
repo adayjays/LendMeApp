@@ -1,9 +1,13 @@
 package com.example.loanapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,15 +25,12 @@ public class BorrowingActivity extends AppCompatActivity {
         String[] itemsCategories = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
 
         listView = (ListView) findViewById(R.id.my_list_view);
-<<<<<<< HEAD
 
         // Instanciating an array list (you don't need to do this,
         // you already have yours).
         List<String> your_array_list = new ArrayList<>();
         your_array_list.add("foo");
         your_array_list.add("bar");
-=======
->>>>>>> eddbe32520172d3d6903a75cb30f55fb0158860d
 
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your

@@ -55,7 +55,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
     public void onBindViewHolder(@NonNull ItemHolder holder, @SuppressLint("RecyclerView") final int position) {
         ParseObject object = list.get(position);
         holder.title.setText(object.getString("title") + " $"+object.getString("price")+" /day");
-//        holder.description.setText(object.getString("description"));
+        holder.location.setText("located at : "+object.getString("seller_loc"));
         holder.image.setImageBitmap(getBitmapFromURL(object.getString("image_url")));
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,14 +100,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
 class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     TextView title;
-//    TextView description;
+    TextView location;
     ImageView image;
 
 
     public ItemHolder(@NonNull View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.title);
-//        description = itemView.findViewById(R.id.description);
+        location = itemView.findViewById(R.id.location);
         image = itemView.findViewById(R.id.image_view);
         itemView.setOnClickListener(this);
 

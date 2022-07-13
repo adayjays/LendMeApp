@@ -46,8 +46,8 @@ public class ConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateItem(value_key);
-                Toast toast = Toast.makeText(ConfirmationActivity.this, "Borrow Confirmed !", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast t = Toast.makeText(ConfirmationActivity.this, "Borrow Confirmed !", Toast.LENGTH_SHORT);
+                t.show();
                 Intent in = new Intent(ConfirmationActivity.this, MainActivity.class);
                 startActivity(in);
             }

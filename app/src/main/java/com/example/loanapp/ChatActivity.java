@@ -33,13 +33,14 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         msg = findViewById(R.id.msg_input);
         send = findViewById(R.id.send_btn);
-        RecyclerView recycler_chat;
+        recyclerView = findViewById(R.id.recycler_chat);
+
         prod_id ="";
         chat_id = getChat_id();
         user_id = "";
         seller_id ="";
         ParseUser currentUser = ParseUser.getCurrentUser();
-        user_id =currentUser.getUsername();
+        user_id =currentUser.getObjectId();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -64,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showToast("sending...");
                 sendMessage();
             }
         });
@@ -111,9 +113,9 @@ public class ChatActivity extends AppCompatActivity {
                 msg_item.saveInBackground(e -> {
                     if (e == null){
                        chat_id = getChat_id();
-                        sendMessage();
+                        saveChat();
                     }else {
-
+                        showToast("Error ! : "+ e.getMessage());
                     }
                 });
             }else{
@@ -130,12 +132,14 @@ public class ChatActivity extends AppCompatActivity {
             chat.put("seller", seller_id);
             chat.put("item", prod_id);
             chat.put("possible_buyer",user_id);
+            chat.put("chat_id",chat_id);
             chat.put("is_read",0);
 
             chat.saveInBackground(e -> {
                 if (e == null) {
                     //We saved the object and fetching data again
-                    showToast("Success! Item saved Successfully");
+                    showToast("Sent");
+                    msg.setText("");
                 } else {
                     //We have an error.We are showing error message here.
                     showToast("Error !"+ e.getMessage());
@@ -163,8 +167,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void showToast(String msg) {
         Toast toast = new Toast(ChatActivity.this);
-        toast.setText(msg);
-        toast.show();
+//        toast.setText(msg);
+        toast.makeText(ChatActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
 
 }

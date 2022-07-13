@@ -47,8 +47,16 @@ public class LoginActivity extends AppCompatActivity {
         navigatesignup.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         });
-    }
 
+//        findViewById(R.id.btn_login).setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        goToMain();
+//                    }
+//                }
+//        );
+    }
     private void login(String username, String password) {
         progressDialog.show();
         ParseUser.logInInBackground(username, password, (parseUser, e) -> {

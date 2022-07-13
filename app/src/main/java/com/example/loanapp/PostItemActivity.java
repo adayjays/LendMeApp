@@ -1,12 +1,21 @@
 package com.example.loanapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -14,15 +23,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class PostItemActivity extends AppCompatActivity {
+public class PostItemActivity extends AppCompatActivity implements LocationListener {
 
     EditText title;
     EditText image_url;
@@ -31,9 +43,14 @@ public class PostItemActivity extends AppCompatActivity {
     EditText price;
     Button submit;
     Spinner category;
+    private FloatingActionButton openInputPopupDialogButton;
+    private RecyclerView recyclerView;
+    private TextView empty_text;
     private FusedLocationProviderClient fusedLocationClient;
+    private LocationManager locationManager;
     private Location loc;
     private String cat;
+    private String location_lat_long="";
 
     private ProgressDialog progressDialog;
     @SuppressLint("MissingPermission")
@@ -51,25 +68,20 @@ public class PostItemActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(PostItemActivity.this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         loc = null;
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            loc = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+            onLocationChanged(loc);
+        }
+
         cat = "Books";
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                            loc = null;
-                        }else{
-                            loc = location;
-                        }
-                    }
-                });
 
-        String[] itemsCategories = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
+        String[] items = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsCategories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
 
         category.setAdapter(adapter);
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -88,12 +100,13 @@ public class PostItemActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        savePostItem();
+                        saveTodo();
                     }
                 });
     }
-    private void savePostItem() {
+    private void saveTodo() {
         ParseObject item = new ParseObject("items");
+        GetLocation getLocation = new GetLocation(PostItemActivity.this);
         if (title.getText().toString().length() != 0 && description.getText().toString().length() != 0 &&(URLUtil.isHttpUrl(image_url.getText().toString()) || URLUtil.isHttpsUrl(image_url.getText().toString()))) {
 
             progressDialog.show();
@@ -102,10 +115,14 @@ public class PostItemActivity extends AppCompatActivity {
             item.put("availability", availability.getText().toString());
             item.put("price",price.getText().toString());
             item.put("image_url", image_url.getText().toString());
-            if (loc == null){
+            if (location_lat_long == ""){
                 item.put("seller_loc", "no location data found");
             }else {
-                item.put("seller_loc",loc.toString());
+                String[]location_lat_long_array = location_lat_long.split(",");
+                double lat = Double.parseDouble(location_lat_long_array[0]);
+                double lng = Double.parseDouble(location_lat_long_array[1]);
+
+                item.put("seller_loc",getLocation.getAddresPlain(lat,lng));
             }
             item.put("category",cat);
             item.put("is_borrowable",1);
@@ -138,5 +155,13 @@ public class PostItemActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        location_lat_long = latitude+","+longitude;
+
     }
 }

@@ -52,7 +52,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ItemHolder> {
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, @SuppressLint("RecyclerView") final int position) {
         ParseObject object = list.get(position);
-        holder.title.setText(object.getString("msg"));
+        holder.title.setText(object.getString("message"));
 //        holder.description.setText(object.getString("description"));
 
     }
@@ -65,15 +65,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ItemHolder> {
 
 class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     TextView title;
-//    TextView description;
-    ImageView image;
 
 
     public ChatHolder(@NonNull View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.msg_body);
 //        description = itemView.findViewById(R.id.description);
-        image = itemView.findViewById(R.id.image_view);
         itemView.setOnClickListener(this);
 
     }
