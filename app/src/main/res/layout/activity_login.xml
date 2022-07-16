@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:background="@drawable/edit_text"
+        android:background="@color/md_light_blue_500"
         style="@style/flat_button"
         android:gravity="center" />
     <TextView
@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         style="@style/flat_button"
+        android:background="@color/md_deep_purple_A100"
         android:text="Add account" />
 
 </LinearLayout>

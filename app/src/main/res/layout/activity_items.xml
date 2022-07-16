@@ -25,6 +25,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        style="@style/CardView"
         android:layout_width="380dp"
         android:layout_height="194dp"
         android:layout_alignParentStart="true"

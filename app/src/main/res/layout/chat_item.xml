@@ -7,6 +7,16 @@
         android:id="@+id/msg_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight=".70"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/msg_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight=".30"
+        android:text="TextView"
+        android:textColor="@color/md_blue_600"
+        android:textSize="4pt" />
+
 </LinearLayout>

@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class ChatAdapter extends RecyclerView.Adapter<ItemHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
 
     private List<ParseObject> list;
@@ -42,17 +43,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ItemHolder> {
 
     @NonNull
     @Override
-    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_item,parent,false);
-        return new ItemHolder(view);
+    public ChatHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item,parent,false);
+        return new ChatHolder(view);
     }
 
 
 
     @Override
-    public void onBindViewHolder(@NonNull ItemHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull ChatHolder holder, @SuppressLint("RecyclerView") final int position) {
         ParseObject object = list.get(position);
-        holder.title.setText(object.getString("message"));
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String user_id =currentUser.getObjectId();
+        String person = "Lender";
+        if(user_id == object.getString("sender")){
+            person = "Me";
+        }
+        holder.title.setText(person+"  : "+object.getString("message"));
+        holder.msg_status.setText(object.getString("is_read"));
 //        holder.description.setText(object.getString("description"));
 
     }
@@ -65,12 +73,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ItemHolder> {
 
 class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     TextView title;
+    TextView msg_status;
 
 
     public ChatHolder(@NonNull View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.msg_body);
-//        description = itemView.findViewById(R.id.description);
+        msg_status = itemView.findViewById(R.id.msg_status);
         itemView.setOnClickListener(this);
 
     }

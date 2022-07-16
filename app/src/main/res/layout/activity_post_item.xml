@@ -52,8 +52,9 @@
     <Button
         android:id="@+id/submit"
         style="@style/flat_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="159dp"
+        android:layout_height="47dp"
+        android:background="@color/md_blue_600"
         android:text="List Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

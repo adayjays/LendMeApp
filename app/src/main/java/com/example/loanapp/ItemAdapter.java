@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.BreakIterator;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
