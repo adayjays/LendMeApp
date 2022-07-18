@@ -10,7 +10,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,13 +22,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -37,7 +34,7 @@ import com.parse.ParseUser;
 public class PostItemActivity extends AppCompatActivity implements LocationListener {
 
     EditText title;
-    EditText image_url;
+    EditText imageUrl;
     EditText description;
     EditText availability;
     EditText price;
@@ -45,12 +42,12 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
     Spinner category;
     private FloatingActionButton openInputPopupDialogButton;
     private RecyclerView recyclerView;
-    private TextView empty_text;
+    private TextView emptyText;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationManager locationManager;
     private Location loc;
     private String cat;
-    private String location_lat_long="";
+    private String locationLatLong ="";
 
     private ProgressDialog progressDialog;
     @SuppressLint("MissingPermission")
@@ -64,7 +61,7 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
         submit = findViewById(R.id.submit);
         category = findViewById(R.id.category);
         price = findViewById(R.id.price);
-        image_url = findViewById(R.id.image_url);
+        imageUrl = findViewById(R.id.image_url);
         progressDialog = new ProgressDialog(PostItemActivity.this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         loc = null;
@@ -107,20 +104,20 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
     private void saveTodo() {
         ParseObject item = new ParseObject("items");
         GetLocation getLocation = new GetLocation(PostItemActivity.this);
-        if (title.getText().toString().length() != 0 && description.getText().toString().length() != 0 &&(URLUtil.isHttpUrl(image_url.getText().toString()) || URLUtil.isHttpsUrl(image_url.getText().toString()))) {
+        if (title.getText().toString().length() != 0 && description.getText().toString().length() != 0 &&(URLUtil.isHttpUrl(imageUrl.getText().toString()) || URLUtil.isHttpsUrl(imageUrl.getText().toString()))) {
 
             progressDialog.show();
             item.put("title", title.getText().toString());
             item.put("description", description.getText().toString());
             item.put("availability", availability.getText().toString());
             item.put("price",price.getText().toString());
-            item.put("image_url", image_url.getText().toString());
-            if (location_lat_long == ""){
+            item.put("image_url", imageUrl.getText().toString());
+            if (locationLatLong == ""){
                 item.put("seller_loc", "no location data found");
             }else {
-                String[]location_lat_long_array = location_lat_long.split(",");
-                double lat = Double.parseDouble(location_lat_long_array[0]);
-                double lng = Double.parseDouble(location_lat_long_array[1]);
+                String[]locationLatLongArray = locationLatLong.split(",");
+                double lat = Double.parseDouble(locationLatLongArray[0]);
+                double lng = Double.parseDouble(locationLatLongArray[1]);
 
                 item.put("seller_loc",getLocation.getAddresPlain(lat,lng));
             }
@@ -161,7 +158,7 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
     public void onLocationChanged(@NonNull Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        location_lat_long = latitude+","+longitude;
+        locationLatLong = latitude+","+longitude;
 
     }
 }

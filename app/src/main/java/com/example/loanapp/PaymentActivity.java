@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,9 +14,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class PaymentActivity extends AppCompatActivity {
-    Button back_home_btn,to_confirm_btn;
-    String value_from_activity = "-1";
-    EditText expiry_date,card_number,cvv_txt;
+    Button backHomeBtn, toConfirmBtn;
+    String valueFromActivity = "-1";
+    EditText expiryDate, cardNumber, cvvTxt;
 
     private ProgressDialog progressDialog;
 
@@ -27,19 +26,19 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         Bundle extras = getIntent().getExtras();
 
-        back_home_btn = findViewById(R.id.back_home_btn);
-        to_confirm_btn = findViewById(R.id.to_confirm_btn);
-        cvv_txt = findViewById(R.id.cvv_txt);
-        card_number = findViewById(R.id.card_number);
-        expiry_date = findViewById(R.id.expiry_date);
+        backHomeBtn = findViewById(R.id.back_home_btn);
+        toConfirmBtn = findViewById(R.id.to_confirm_btn);
+        cvvTxt = findViewById(R.id.cvv_txt);
+        cardNumber = findViewById(R.id.card_number);
+        expiryDate = findViewById(R.id.expiry_date);
         progressDialog = new ProgressDialog(PaymentActivity.this);
 
         if (extras != null) {
             String value = extras.getString("key");
-            value_from_activity = value;
+            valueFromActivity = value;
         }
-        if(value_from_activity !="-1"){
-            to_confirm_btn.setOnClickListener(new View.OnClickListener() {
+        if(valueFromActivity !="-1"){
+            toConfirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     saveCard();
@@ -47,7 +46,7 @@ public class PaymentActivity extends AppCompatActivity {
                 }
             });
         }
-        back_home_btn.setOnClickListener(new View.OnClickListener() {
+        backHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(PaymentActivity.this, MainActivity.class);
@@ -58,13 +57,13 @@ public class PaymentActivity extends AppCompatActivity {
     }
     public void saveCard(){
         ParseObject item = new ParseObject("card");
-        if (cvv_txt.getText().toString().length() != 0 && card_number.getText().toString().length() != 0 && card_number.getText().toString().length() != 0 ) {
+        if (cvvTxt.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 ) {
 
             progressDialog.show();
-            item.put("cvv", cvv_txt.getText().toString());
-            item.put("card_number", card_number.getText().toString());
-            item.put("expiry_date", expiry_date.getText().toString());
-            item.put("for_item",value_from_activity);
+            item.put("cvv", cvvTxt.getText().toString());
+            item.put("card_number", cardNumber.getText().toString());
+            item.put("expiry_date", expiryDate.getText().toString());
+            item.put("for_item", valueFromActivity);
 
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
@@ -77,7 +76,7 @@ public class PaymentActivity extends AppCompatActivity {
                     //We saved the object and fetching data again
                     showAlert("Success","Card saved Successfully");
                     Intent i = new Intent(PaymentActivity.this,ConfirmationActivity.class);
-        i.putExtra("key",value_from_activity);
+        i.putExtra("key", valueFromActivity);
         startActivity(i);
                 } else {
                     //We have an error.We are showing error message here.
@@ -87,9 +86,7 @@ public class PaymentActivity extends AppCompatActivity {
         }else{
             showAlert("Error", "Please cvv,card number and Expiry date");
         }
-//        Intent i = new Intent(PaymentActivity.this,ConfirmationActivity.class);
-//        i.putExtra("key",value_from_activity);
-//        startActivity(i);
+
         }
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this)
@@ -98,7 +95,7 @@ public class PaymentActivity extends AppCompatActivity {
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.cancel();
                     Intent intent = new Intent(PaymentActivity.this, PaymentActivity.class);
-                    intent.putExtra("key",value_from_activity);
+                    intent.putExtra("key", valueFromActivity);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });

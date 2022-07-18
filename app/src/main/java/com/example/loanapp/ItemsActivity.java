@@ -8,14 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -28,7 +24,7 @@ public class ItemsActivity extends AppCompatActivity {
     private static RecyclerViewClickListener itemListener;
 
     private RecyclerView recyclerView;
-    private TextView category_type;
+    private TextView categoryType;
 //    private TextView empty_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +32,7 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
 
         recyclerView = findViewById(R.id.recyclerView);
-        category_type = findViewById(R.id.category_type);
+        categoryType = findViewById(R.id.category_type);
 //        empty_text = findViewById(R.id.empty_text);
 
         Bundle b = getIntent().getExtras();
@@ -44,7 +40,7 @@ public class ItemsActivity extends AppCompatActivity {
         if(b != null) {
             value = b.getString("cat");
 //            set it as title of the page
-            category_type.setText(value.toUpperCase(Locale.ROOT));
+            categoryType.setText(value.toUpperCase(Locale.ROOT));
 
         }
         getItemList(value);

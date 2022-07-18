@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -26,7 +24,7 @@ import java.util.List;
 public class ChatActivity extends AppCompatActivity {
     Button send;
     EditText msg;
-    String prod_id,chat_id,user_id,seller_id;
+    String itemId, chatId, userId, sellerId;
     RecyclerView recyclerView;
     RecyclerViewClickListener recyclerViewClickListener;
 
@@ -38,29 +36,29 @@ public class ChatActivity extends AppCompatActivity {
         send = findViewById(R.id.send_btn);
         recyclerView = findViewById(R.id.recycler_chat);
 
-        prod_id ="";
-        chat_id = getChat_id();
-        user_id = "";
-        seller_id ="";
+        itemId ="";
+        chatId = getChatId();
+        userId = "";
+        sellerId ="";
         ParseUser currentUser = ParseUser.getCurrentUser();
-        user_id =currentUser.getObjectId();
+        userId =currentUser.getObjectId();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("key");
 //            owner_id+","+object_id
             String[] valueArray = value.split(",");
-            prod_id = valueArray[1];
-            seller_id = valueArray[0];
+            itemId = valueArray[1];
+            sellerId = valueArray[0];
 
         }else{
             showToast("Empty key");
 
         }
-        if (prod_id.equals("") && seller_id.equals("") && user_id.equals("") ){
+        if (itemId.equals("") && sellerId.equals("") && userId.equals("") ){
 
         }else {
-            chat_id = getChat_id();
+            chatId = getChatId();
             getChats();
         }
 
@@ -90,9 +88,9 @@ public class ChatActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("chats");
 
 // The query will resolve only after calling this method
-        query.whereEqualTo("seller", seller_id);
-        query.whereEqualTo("item", prod_id);
-        query.whereEqualTo("possible_buyer", user_id);
+        query.whereEqualTo("seller", sellerId);
+        query.whereEqualTo("item", itemId);
+        query.whereEqualTo("possible_buyer", userId);
         query.findInBackground((objects, e) -> {
             if (e == null) {
 
@@ -121,13 +119,13 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseObject msg_item =new ParseObject("messages");
         if (msg.getText().toString().trim().length() > 0){
-            if(chat_id.trim().length() == 0){
-                msg_item.put("seller",seller_id);
-                msg_item.put("item",prod_id);
-                msg_item.put("possible_buyer",user_id);
+            if(chatId.trim().length() == 0){
+                msg_item.put("seller", sellerId);
+                msg_item.put("item",itemId);
+                msg_item.put("possible_buyer", userId);
                 msg_item.saveInBackground(e -> {
                     if (e == null){
-                       chat_id = getChat_id();
+                       chatId = getChatId();
                         saveChat();
                     }else {
                         showToast("Error ! : "+ e.getMessage());
@@ -143,13 +141,13 @@ public class ChatActivity extends AppCompatActivity {
     }
     public void createMessageItem(){
         ParseObject msg_item =new ParseObject("messages");
-        if(chat_id.trim().length() == 0){
-            msg_item.put("seller",seller_id);
-            msg_item.put("item",prod_id);
-            msg_item.put("possible_buyer",user_id);
+        if(chatId.trim().length() == 0){
+            msg_item.put("seller", sellerId);
+            msg_item.put("item",itemId);
+            msg_item.put("possible_buyer", userId);
             msg_item.saveInBackground(e -> {
                 if (e == null){
-                    chat_id = getChat_id();
+                    chatId = getChatId();
 
                 }else {
                     showToast("Error ! : "+ e.getMessage());
@@ -161,12 +159,12 @@ public class ChatActivity extends AppCompatActivity {
     public void saveChat(){
         ParseObject chat = new ParseObject("chats");
             chat.put("message", msg.getText().toString());
-            chat.put("seller", seller_id);
-            chat.put("item", prod_id);
-            chat.put("possible_buyer",user_id);
-            chat.put("chat_id",chat_id);
+            chat.put("seller", sellerId);
+            chat.put("item", itemId);
+            chat.put("possible_buyer", userId);
+            chat.put("chat_id", chatId);
         chat.put("is_read","sent");
-        chat.put("sender",user_id);
+        chat.put("sender", userId);
 
             chat.saveInBackground(e -> {
                 if (e == null) {
@@ -179,12 +177,12 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
     }
-    public String getChat_id(){
+    public String getChatId(){
         final String[] ret = {""};
         ParseQuery<ParseObject> query = ParseQuery.getQuery("messages");
-        query.whereEqualTo("seller", seller_id);
-        query.whereEqualTo("item", prod_id);
-        query.whereEqualTo("possible_buyer", user_id);
+        query.whereEqualTo("seller", sellerId);
+        query.whereEqualTo("item", itemId);
+        query.whereEqualTo("possible_buyer", userId);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {
@@ -209,11 +207,11 @@ public class ChatActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("chats");
 
 // The query will resolve only after calling this method
-        query.whereEqualTo("seller", seller_id);
-        query.whereEqualTo("item", prod_id);
-        query.whereEqualTo("possible_buyer", user_id);
+        query.whereEqualTo("seller", sellerId);
+        query.whereEqualTo("item", itemId);
+        query.whereEqualTo("possible_buyer", userId);
         query.whereEqualTo("is_read", "sent");
-        query.whereNotEqualTo("sender",user_id);
+        query.whereNotEqualTo("sender", userId);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {

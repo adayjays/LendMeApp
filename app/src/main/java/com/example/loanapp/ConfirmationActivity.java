@@ -20,8 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ConfirmationActivity extends AppCompatActivity {
-    Boolean is_available = false;
-    TextView thank_you_msg,you_msg,notf_msg;
+    Boolean isAvailable = false;
+    TextView thankYouMsg, youMsg, notfMsg;
     Button homeBtn,confirm;
     String value_key = "1";
 
@@ -29,9 +29,9 @@ public class ConfirmationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
-        thank_you_msg = findViewById(R.id.thank_you_msg);
-        you_msg = findViewById(R.id.you_msg);
-        notf_msg = findViewById(R.id.notf_msg);
+        thankYouMsg = findViewById(R.id.thank_you_msg);
+        youMsg = findViewById(R.id.you_msg);
+        notfMsg = findViewById(R.id.notf_msg);
         homeBtn = findViewById(R.id.button_home);
         confirm = findViewById(R.id.confirm_btn);
 
@@ -57,7 +57,7 @@ public class ConfirmationActivity extends AppCompatActivity {
         if (extras != null) {
             String value = extras.getString("key");
             value_key = value;
-            is_available = true;
+            isAvailable = true;
             getData(value);
             //The key argument here must match that used in the other activity
         }
@@ -70,7 +70,7 @@ public class ConfirmationActivity extends AppCompatActivity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {
-                    is_available = true;
+                    isAvailable = true;
                     String title = player.getString("title");
                     String username = "Sara";
                     ParseUser currentUser = ParseUser.getCurrentUser();
@@ -87,9 +87,9 @@ public class ConfirmationActivity extends AppCompatActivity {
                     String new_you_msg = "You and the lender will meet at the agreed location on "+tomorrow;
                     c.add(Calendar.DATE,6);
                     String new_notf_msg = "You must return '"+ title +"' by "+ (String)formattedDate.format(c.getTime()) +" to avoid late fees.";
-                    thank_you_msg.setText(new_thank_you_msg);
-                    you_msg.setText(new_you_msg);
-                    notf_msg.setText(new_notf_msg);
+                    thankYouMsg.setText(new_thank_you_msg);
+                    youMsg.setText(new_you_msg);
+                    notfMsg.setText(new_notf_msg);
 
                 } else {
                     // Something is wrong
@@ -103,8 +103,7 @@ public class ConfirmationActivity extends AppCompatActivity {
         query.getInBackground(key, new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {
-                    // Now let's update it with some new data. In this case, only cheatMode and score
-                    // will get sent to the Parse Cloud. playerName hasn't changed.
+                    // Now let's update it with some new dat
                     player.put("is_borrowable", 0);
                     player.saveInBackground();
                 } else {

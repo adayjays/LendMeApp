@@ -7,23 +7,18 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.LogInCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
     private Button login;
-    private Button navigatesignup;
+    private Button navigateSignup;
     private ProgressDialog progressDialog;
 
     @Override
@@ -39,23 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         username = findViewById(R.id.et_username);
         password = findViewById(R.id.et_password);
         login = findViewById(R.id.btn_login);
-        navigatesignup = findViewById(R.id.navigatesignup);
+        navigateSignup = findViewById(R.id.navigatesignup);
 
 
         login.setOnClickListener(v -> login(username.getText().toString(), password.getText().toString()));
 
-        navigatesignup.setOnClickListener(v -> {
+        navigateSignup.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         });
-
-//        findViewById(R.id.btn_login).setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        goToMain();
-//                    }
-//                }
-//        );
     }
     private void login(String username, String password) {
         progressDialog.show();

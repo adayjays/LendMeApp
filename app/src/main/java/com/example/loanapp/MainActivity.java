@@ -8,33 +8,31 @@ import android.os.StrictMode;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
-    Button lendbtn;
-    Button borrowbtn;
-    TextView welcome_text;
+    Button lendBtn;
+    Button borrowBtn;
+    TextView welcomeText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        borrowbtn = findViewById(R.id.borrowbtn);
-        lendbtn = findViewById(R.id.lendbtn);
-        welcome_text = findViewById(R.id.welcome_text);
+        borrowBtn = findViewById(R.id.borrowbtn);
+        lendBtn = findViewById(R.id.lendbtn);
+        welcomeText = findViewById(R.id.welcome_text);
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            welcome_text.setText("Welcome to LendMe, "+currentUser.getUsername()+ " !");
+            welcomeText.setText("Welcome to LendMe, "+currentUser.getUsername()+ " !");
         }
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        lendbtn.setOnClickListener(v -> {
+        lendBtn.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, LendingActivity.class));
         });
-        borrowbtn.setOnClickListener(v -> {
+        borrowBtn.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, BorrowingActivity.class));
         });
     }
