@@ -17,7 +17,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-    private Button login;
+    private Button loginButton;
     private Button navigateSignup;
     private ProgressDialog progressDialog;
 
@@ -33,11 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         }
         username = findViewById(R.id.et_username);
         password = findViewById(R.id.et_password);
-        login = findViewById(R.id.btn_login);
+        loginButton = findViewById(R.id.btn_login);
         navigateSignup = findViewById(R.id.navigatesignup);
 
 
-        login.setOnClickListener(v -> login(username.getText().toString(), password.getText().toString()));
+        loginButton.setOnClickListener(v -> login(username.getText().toString(), password.getText().toString()));
 
         navigateSignup.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));

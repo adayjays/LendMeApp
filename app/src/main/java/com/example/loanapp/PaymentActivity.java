@@ -14,9 +14,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class PaymentActivity extends AppCompatActivity {
-    Button backHomeBtn, toConfirmBtn;
+    Button backHomeButton, toConfirmButton;
     String valueFromActivity = "-1";
-    EditText expiryDate, cardNumber, cvvTxt;
+    EditText expiryDate, cardNumber, cvvText;
 
     private ProgressDialog progressDialog;
 
@@ -26,9 +26,9 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         Bundle extras = getIntent().getExtras();
 
-        backHomeBtn = findViewById(R.id.back_home_btn);
-        toConfirmBtn = findViewById(R.id.to_confirm_btn);
-        cvvTxt = findViewById(R.id.cvv_txt);
+        backHomeButton = findViewById(R.id.back_home_btn);
+        toConfirmButton = findViewById(R.id.to_confirm_btn);
+        cvvText = findViewById(R.id.cvv_txt);
         cardNumber = findViewById(R.id.card_number);
         expiryDate = findViewById(R.id.expiry_date);
         progressDialog = new ProgressDialog(PaymentActivity.this);
@@ -38,7 +38,7 @@ public class PaymentActivity extends AppCompatActivity {
             valueFromActivity = value;
         }
         if(valueFromActivity !="-1"){
-            toConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            toConfirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     saveCard();
@@ -46,7 +46,7 @@ public class PaymentActivity extends AppCompatActivity {
                 }
             });
         }
-        backHomeBtn.setOnClickListener(new View.OnClickListener() {
+        backHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(PaymentActivity.this, MainActivity.class);
@@ -57,10 +57,10 @@ public class PaymentActivity extends AppCompatActivity {
     }
     public void saveCard(){
         ParseObject item = new ParseObject("card");
-        if (cvvTxt.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 ) {
+        if (cvvText.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 && cardNumber.getText().toString().length() != 0 ) {
 
             progressDialog.show();
-            item.put("cvv", cvvTxt.getText().toString());
+            item.put("cvv", cvvText.getText().toString());
             item.put("card_number", cardNumber.getText().toString());
             item.put("expiry_date", expiryDate.getText().toString());
             item.put("for_item", valueFromActivity);

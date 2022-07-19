@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,12 +19,10 @@ import java.util.Locale;
 
 public class ItemsActivity extends AppCompatActivity {
 
-    private ProgressDialog progressDialog;
     private static RecyclerViewClickListener itemListener;
-
     private RecyclerView recyclerView;
     private TextView categoryType;
-//    private TextView empty_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +30,11 @@ public class ItemsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         categoryType = findViewById(R.id.category_type);
-//        empty_text = findViewById(R.id.empty_text);
 
-        Bundle b = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         String value = ""; // or other values
-        if(b != null) {
-            value = b.getString("cat");
+        if(bundle != null) {
+            value = bundle.getString("cat");
 //            set it as title of the page
             categoryType.setText(value.toUpperCase(Locale.ROOT));
 
@@ -47,7 +43,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         itemListener = new RecyclerViewClickListener() {
             @Override
-            public void recyclerViewListClicked(View v, int position) {
+            public void recyclerViewListClicked(View view, int position) {
                 Toast.makeText(ItemsActivity.this,"Position is",Toast.LENGTH_LONG).show();
             }
 
@@ -58,7 +54,7 @@ public class ItemsActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("items");
         //We use this code to fetch data from newest to oldest.
         if (val != "") {
-            query.whereEqualTo("category", val);
+            query.whereEqualTo("categorySpinner", val);
         }
         query.whereEqualTo("is_borrowable",1);
         query.orderByDescending("createdAt");
@@ -84,18 +80,15 @@ public class ItemsActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });
-        AlertDialog ok = builder.create();
-        ok.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
     private void initTodoList(List<ParseObject> list) {
         if (list == null || list.isEmpty()) {
-//            empty_text.setVisibility(View.VISIBLE);
             return;
         }
-//        empty_text.setVisibility(View.GONE);
 
         ItemAdapter adapter = new ItemAdapter(list, ItemsActivity.this);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

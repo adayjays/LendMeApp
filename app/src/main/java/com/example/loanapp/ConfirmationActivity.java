@@ -21,8 +21,8 @@ import java.util.Date;
 
 public class ConfirmationActivity extends AppCompatActivity {
     Boolean isAvailable = false;
-    TextView thankYouMsg, youMsg, notfMsg;
-    Button homeBtn,confirm;
+    TextView thankYouMsg, youMsg, notificationMessage;
+    Button homeButton,confirm;
     String value_key = "1";
 
     @Override
@@ -31,11 +31,11 @@ public class ConfirmationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirmation);
         thankYouMsg = findViewById(R.id.thank_you_msg);
         youMsg = findViewById(R.id.you_msg);
-        notfMsg = findViewById(R.id.notf_msg);
-        homeBtn = findViewById(R.id.button_home);
+        notificationMessage = findViewById(R.id.notf_msg);
+        homeButton = findViewById(R.id.button_home);
         confirm = findViewById(R.id.confirm_btn);
 
-        homeBtn.setOnClickListener(new View.OnClickListener() {
+        homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(ConfirmationActivity.this, MainActivity.class);
@@ -53,7 +53,7 @@ public class ConfirmationActivity extends AppCompatActivity {
             }
         });
         Bundle extras = getIntent().getExtras();
-//        Log.e(extras.getString("key"));
+        // Log.e(extras.getString("key"));
         if (extras != null) {
             String value = extras.getString("key");
             value_key = value;
@@ -65,7 +65,7 @@ public class ConfirmationActivity extends AppCompatActivity {
 
     public void getData(String key){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("items");
-// Query parameters based on the item name
+        // Query parameters based on the item name
         query.whereEqualTo("objectId", key);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
@@ -89,7 +89,7 @@ public class ConfirmationActivity extends AppCompatActivity {
                     String new_notf_msg = "You must return '"+ title +"' by "+ (String)formattedDate.format(c.getTime()) +" to avoid late fees.";
                     thankYouMsg.setText(new_thank_you_msg);
                     youMsg.setText(new_you_msg);
-                    notfMsg.setText(new_notf_msg);
+                    notificationMessage.setText(new_notf_msg);
 
                 } else {
                     // Something is wrong
@@ -99,7 +99,7 @@ public class ConfirmationActivity extends AppCompatActivity {
     }
     private void updateItem(String key){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("items");
-// Retrieve the object by id
+        // Retrieve the object by id
         query.getInBackground(key, new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {

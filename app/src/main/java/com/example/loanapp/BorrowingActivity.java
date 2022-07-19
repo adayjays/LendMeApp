@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowingActivity extends AppCompatActivity {
+
     private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +27,12 @@ public class BorrowingActivity extends AppCompatActivity {
         String[] itemsCategories = new String[]{"Books", "Outdoor supplies", "Technology", "Household Items", "clothing/Jewelry", "Miscellaneous"};
 
         listView = (ListView) findViewById(R.id.my_list_view);
-
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 itemsCategories);
 
         listView.setAdapter(arrayAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

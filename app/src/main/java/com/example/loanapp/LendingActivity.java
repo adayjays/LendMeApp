@@ -34,7 +34,6 @@ public class LendingActivity extends AppCompatActivity {
                                     int position, long id) {
 
                 Intent intent = new Intent(LendingActivity.this, PostItemActivity.class);
-//                intent.putExtra("cat",itemsCategories[position]);
                 startActivity(intent);
 
             }

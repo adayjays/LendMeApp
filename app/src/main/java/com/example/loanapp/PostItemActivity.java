@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -23,11 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -38,15 +35,12 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
     EditText description;
     EditText availability;
     EditText price;
-    Button submit;
-    Spinner category;
-    private FloatingActionButton openInputPopupDialogButton;
-    private RecyclerView recyclerView;
-    private TextView emptyText;
+    Button submitButton;
+    Spinner categorySpinner;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationManager locationManager;
-    private Location loc;
-    private String cat;
+    private Location location;
+    private String category;
     private String locationLatLong ="";
 
     private ProgressDialog progressDialog;
@@ -58,33 +52,32 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         availability = findViewById(R.id.availability);
-        submit = findViewById(R.id.submit);
-        category = findViewById(R.id.category);
+        submitButton = findViewById(R.id.submit);
+        categorySpinner = findViewById(R.id.category);
         price = findViewById(R.id.price);
         imageUrl = findViewById(R.id.image_url);
         progressDialog = new ProgressDialog(PostItemActivity.this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        loc = null;
+        location = null;
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            loc = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-            onLocationChanged(loc);
+            location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+            onLocationChanged(location);
         }
 
-        cat = "Books";
-
+        category = "Books";
 
         String[] items = new String[]{"Books", "Outdoor supplies", "Technology","Household Items","clothing/Jewelry", "Miscellaneous"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
 
-        category.setAdapter(adapter);
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categorySpinner.setAdapter(adapter);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                                @Override
                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                   cat = category.getItemAtPosition(i).toString();
+                                                   category = categorySpinner.getItemAtPosition(i).toString();
                                                }
 
                                                @Override
@@ -93,7 +86,7 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
                                                }
                                            });
 
-                submit.setOnClickListener(new View.OnClickListener() {
+                submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -116,12 +109,12 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
                 item.put("seller_loc", "no location data found");
             }else {
                 String[]locationLatLongArray = locationLatLong.split(",");
-                double lat = Double.parseDouble(locationLatLongArray[0]);
-                double lng = Double.parseDouble(locationLatLongArray[1]);
+                double latitude = Double.parseDouble(locationLatLongArray[0]);
+                double longitude = Double.parseDouble(locationLatLongArray[1]);
 
-                item.put("seller_loc",getLocation.getAddresPlain(lat,lng));
+                item.put("seller_loc",getLocation.getAddresPlain(latitude,longitude));
             }
-            item.put("category",cat);
+            item.put("categorySpinner", category);
             item.put("is_borrowable",1);
             ParseUser currentUser = ParseUser.getCurrentUser();
             item.put("posted_by",currentUser.getObjectId());
@@ -150,8 +143,8 @@ public class PostItemActivity extends AppCompatActivity implements LocationListe
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });
-        AlertDialog ok = builder.create();
-        ok.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

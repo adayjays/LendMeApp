@@ -29,12 +29,8 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
 
     private static RecyclerViewClickListener itemListener;
-
     private List<ParseObject> list;
     private Context context;
-
-    public MutableLiveData<ParseObject> onEditListener = new MutableLiveData<>();
-    public MutableLiveData<ParseObject> onDeleteListener = new MutableLiveData<>();
 
     public ItemAdapter(List<ParseObject> list, Context context) {
         this.list = list;
@@ -49,8 +45,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_item,parent,false);
         return new ItemHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, @SuppressLint("RecyclerView") final int position) {
@@ -67,9 +61,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
                 context.startActivity(intent);
             }
         });
-
-
     }
+
     public static Bitmap getBitmapFromURL(String src) {
         if(URLUtil.isHttpUrl(src) || URLUtil.isHttpsUrl(src)) {
             try {
@@ -87,9 +80,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
                 Log.e("Exception", e.getMessage());
                 return null;
             }
-        }else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -98,12 +90,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
     }
 }
 
-
 class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
     TextView title;
     TextView location;
     ImageView image;
-
 
     public ItemHolder(@NonNull View itemView) {
         super(itemView);
@@ -111,7 +102,6 @@ class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         location = itemView.findViewById(R.id.location);
         image = itemView.findViewById(R.id.image_view);
         itemView.setOnClickListener(this);
-
     }
 
     @Override

@@ -13,18 +13,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private ImageView back;
-    private Button signUp;
+    private Button signUpButton;
     private TextInputEditText username;
     private TextInputEditText password;
-    private TextInputEditText passwordagain;
+    private TextInputEditText passwordReentry;
     private ProgressDialog progressDialog;
 
     @Override
@@ -35,14 +32,14 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(SignUpActivity.this);
 
         back = findViewById(R.id.back);
-        signUp = findViewById(R.id.signup);
+        signUpButton = findViewById(R.id.signup);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        passwordagain = findViewById(R.id.passwordagain);
+        passwordReentry = findViewById(R.id.passwordagain);
 
 
-        signUp.setOnClickListener(v -> {
-            if (password.getText().toString().equals(passwordagain.getText().toString()) && !TextUtils.isEmpty(username.getText().toString()))
+        signUpButton.setOnClickListener(v -> {
+            if (password.getText().toString().equals(passwordReentry.getText().toString()) && !TextUtils.isEmpty(username.getText().toString()))
                 signUp(username.getText().toString(), password.getText().toString());
             else
                 Toast.makeText(this, "Make sure that the values you entered are correct.", Toast.LENGTH_SHORT).show();
@@ -80,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-        AlertDialog ok = builder.create();
-        ok.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

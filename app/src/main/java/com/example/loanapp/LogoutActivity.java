@@ -13,17 +13,17 @@ import com.parse.ParseUser;
 
 public class LogoutActivity extends AppCompatActivity {
 
-    Button logout;
+    Button logoutButton;
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logout);
-        logout = findViewById(R.id.logout);
+        logoutButton = findViewById(R.id.logout);
         progressDialog = new ProgressDialog(LogoutActivity.this);
 
-        logout.setOnClickListener(v -> {
+        logoutButton.setOnClickListener(v -> {
             progressDialog.show();
             // logging out of Parse
             ParseUser.logOutInBackground(e -> {

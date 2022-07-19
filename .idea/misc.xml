@@ -17,6 +17,10 @@
         <entry key="..\:/Users/bryanitur/AndroidStudioProjects/LoanApp/app/src/main/res/drawable/edit_text.xml" value="0.2915" />
         <entry key="..\:/Users/bryanitur/AndroidStudioProjects/LoanApp/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
         <entry key="..\:/Users/bryanitur/AndroidStudioProjects/LoanApp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="app/src/main/res/layout/activity_borrowing.xml" value="0.14488348530901723" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.14488348530901723" />
+        <entry key="app/src/main/res/layout/activity_payment.xml" value="0.14488348530901723" />
+        <entry key="app/src/main/res/layout/activity_post_item.xml" value="0.14488348530901723" />
       </map>
     </option>
   </component>
